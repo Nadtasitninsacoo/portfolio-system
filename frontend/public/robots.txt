@@ -1,0 +1,6 @@
+# อนุญาตให้ Search Engine ทุกตัวเก็บข้อมูลทั้งเว็บ
+User-agent: *
+Allow: /
+
+# แผนผังเว็บ — ⚠️ เปลี่ยน your-domain.com เป็นโดเมนจริงหลัง deploy
+Sitemap: https://your-domain.com/sitemap.xml

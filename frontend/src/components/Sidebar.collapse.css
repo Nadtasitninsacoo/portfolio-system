@@ -1,0 +1,62 @@
+/* ===== สถานะพับย่อ (collapsed) + tooltip + responsive ===== */
+
+.is-collapsed .sb-brand-text,
+.is-collapsed .sb-text,
+.is-collapsed .sb-label,
+.is-collapsed .sb-profile-text {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
+.is-collapsed .sb-link,
+.is-collapsed .sb-cta,
+.is-collapsed .sb-profile {
+  justify-content: center;
+  gap: 0;
+}
+/* ส่วนหัวตอนพับ: เรียงเป็นแนวตั้ง (รูป/โลโก้ บน, ปุ่มกางออก ล่าง) */
+.is-collapsed .sb-top {
+  flex-direction: column;
+  gap: 10px;
+}
+.is-collapsed .sb-brand {
+  flex: none;
+  justify-content: center;
+}
+/* ปุ่มพับยังคงกดได้ — กดเพื่อกางออก (ลูกศรหมุนชี้ขวา) */
+.is-collapsed .sb-toggle {
+  width: 36px;
+  height: 36px;
+}
+
+/* แสดงป้ายชื่อ (tooltip) ด้านขวาเมื่อ hover ตอนพับ */
+.is-collapsed .sb-link,
+.is-collapsed .sb-cta,
+.is-collapsed .sb-profile,
+.is-collapsed .sb-brand {
+  position: relative;
+}
+.is-collapsed [data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  padding: 6px 11px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-h);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  z-index: 50;
+}
+
+/* จอแคบ: ซ่อน Sidebar (ใช้ Navbar แทน) */
+@media (max-width: 1024px) {
+  .sidebar {
+    display: none;
+  }
+}

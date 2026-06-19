@@ -1,0 +1,27 @@
+# Render Blueprint — deploy backend พร้อม persistent disk สำหรับ SQLite + รูปอัปโหลด
+# หมายเหตุ: disk ใช้ได้เฉพาะแพลน starter ขึ้นไป (แพลน free ไม่มี disk → ข้อมูลจะหาย)
+services:
+  - type: web
+    name: portfolio-api
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true # Render สุ่มให้อัตโนมัติ
+      - key: ADMIN_USERNAME
+        sync: false # กรอกเองในแดชบอร์ด
+      - key: ADMIN_PASSWORD
+        sync: false # กรอกเองในแดชบอร์ด
+      - key: CORS_ORIGIN
+        sync: false # ใส่โดเมน Vercel ของคุณ
+      - key: DB_PATH
+        value: /data/data.sqlite
+      - key: UPLOAD_DIR
+        value: /data/uploads
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

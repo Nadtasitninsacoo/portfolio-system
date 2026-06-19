@@ -1,0 +1,139 @@
+/* ===== หน้าภาพรวมสถิติ (Dashboard) ===== */
+.ov {
+  max-width: 860px;
+}
+
+/* การ์ดตัวเลขสรุป */
+.ov-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.ov-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 0, 0.08), transparent 60%),
+    var(--surface);
+  border: 1px solid var(--border);
+}
+.ov-stat-icon {
+  font-size: 18px;
+}
+.ov-stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.ov-stat-label {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+/* การ์ดกราฟ */
+.ov-card {
+  padding: 18px;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.ov-h {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 14px;
+}
+
+/* กราฟเส้น */
+.ov-chart {
+  width: 100%;
+}
+.ov-line {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+.ov-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.ov-stroke {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.55));
+  vector-effect: non-scaling-stroke;
+}
+.ov-dot {
+  fill: var(--accent);
+}
+.ov-xaxis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 12px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+.ov-xaxis span {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* กราฟแท่งแนวนอน */
+.ov-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ov-bar-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 36px;
+  align-items: center;
+  gap: 10px;
+}
+.ov-bar-label {
+  font-size: 12.5px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ov-bar-track {
+  height: 14px;
+  border-radius: 7px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.ov-bar-fill {
+  height: 100%;
+  border-radius: 7px;
+  background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+  box-shadow: 0 0 8px -1px rgba(255, 255, 0, 0.6);
+  transition: width 0.4s ease;
+}
+.ov-bar-count {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .ov-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ov-bar-row {
+    grid-template-columns: 110px 1fr 30px;
+  }
+}

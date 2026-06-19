@@ -1,0 +1,220 @@
+/* ===== หน้าเข้าสู่ระบบ ===== */
+.admin-login {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 32px;
+  /* กระจกฝ้า มองทะลุเห็นสายฝนโค้ดด้านหลัง */
+  background: rgba(20, 22, 28, 0.45);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 20px 50px -20px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.login-back {
+  align-self: flex-start;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: color 0.18s ease;
+}
+.login-back:hover {
+  color: var(--accent);
+}
+.login-card h1 {
+  font-size: 22px;
+  margin: 0;
+}
+.login-sub {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: -6px 0 6px;
+}
+.login-card label,
+.fld {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.login-card input {
+  font: inherit;
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  background: rgba(8, 9, 12, 0.55);
+  border: 1px solid var(--border-strong);
+  color: var(--text-h);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.login-card input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+@media (max-width: 520px) {
+  .login-card {
+    padding: 24px 20px;
+  }
+  /* กัน iOS ซูมตอนแตะช่องกรอก */
+  .login-card input {
+    font-size: 16px;
+  }
+}
+.login-card h1,
+.login-card .login-sub {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== โครงหน้าแอดมิน ===== */
+.admin {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  min-height: 100vh;
+}
+.admin-side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 12px;
+  border-right: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 0, 0.04), transparent 32%),
+    var(--bg-soft);
+}
+.admin-brand {
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: var(--text-h);
+  padding: 4px 10px 14px;
+}
+.admin-brand::first-letter {
+  color: var(--accent);
+}
+.admin-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.admin-tab {
+  text-align: left;
+  padding: 10px 13px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  transition: all 0.18s ease;
+}
+.admin-tab:hover {
+  color: var(--text-h);
+  background: rgba(255, 255, 255, 0.05);
+}
+.admin-tab.active {
+  color: var(--on-accent);
+  background: var(--accent);
+  font-weight: 600;
+}
+.admin-side-foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.admin-link {
+  color: var(--accent);
+  font-size: 14px;
+  padding: 0 10px;
+}
+.admin-logout {
+  font: inherit;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+}
+.admin-logout:hover {
+  border-color: #f06b5e;
+  color: #f06b5e;
+}
+.admin-main {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+@media (max-width: 720px) {
+  .admin {
+    grid-template-columns: 1fr;
+  }
+  /* แถบด้านข้างกลายเป็นแถบบนแบบ sticky + แท็บเลื่อนแนวนอน */
+  .admin-side {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    padding: 12px 14px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    background: rgba(24, 27, 33, 0.9);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+  .admin-brand {
+    padding: 0;
+    flex: 1;
+    min-width: 0;
+  }
+  .admin-tabs {
+    order: 3;
+    flex-direction: row;
+    width: 100%;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .admin-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .admin-tab {
+    white-space: nowrap;
+    flex: none;
+  }
+  .admin-side-foot {
+    margin-top: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding-top: 0;
+    border-top: none;
+  }
+  .admin-main {
+    padding: 16px;
+  }
+}

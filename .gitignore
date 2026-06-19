@@ -1,0 +1,28 @@
+# ===== dependencies =====
+node_modules/
+
+# ===== build output =====
+dist/
+build/
+
+# ===== ความลับ: ไฟล์ env (ห้ามขึ้น git) =====
+.env
+.env.*
+!.env.example
+
+# ===== ข้อมูล runtime: ฐานข้อมูล + ไฟล์อัปโหลด =====
+*.sqlite
+*.sqlite-*
+backend/uploads/
+
+# ===== logs =====
+*.log
+logs/
+
+# ===== OS / editor =====
+.DS_Store
+Thumbs.db
+.idea/
+*.suo
+.vscode/*
+!.vscode/extensions.json

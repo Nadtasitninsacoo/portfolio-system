@@ -1,0 +1,43 @@
+.flow-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  /* จางลงเพื่อไม่รบกวนการอ่านเนื้อหา */
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(
+    120% 90% at 70% 10%,
+    #000 0%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(120% 90% at 70% 10%, #000 0%, transparent 75%);
+}
+.flow-bg svg {
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+}
+.flow-lines path {
+  stroke-width: 2.2;
+}
+.flow-lines {
+  animation: flowDrift 24s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+@keyframes flowDrift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-30px, 24px, 0) scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-lines {
+    animation: none;
+  }
+}

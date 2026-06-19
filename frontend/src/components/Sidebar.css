@@ -1,0 +1,197 @@
+/* ===== ระยะของเนื้อหาเมื่อมี Sidebar (เฉพาะจอใหญ่) ===== */
+.content {
+  position: relative;
+  z-index: 1; /* ยกเนื้อหาขึ้นเหนือพื้นหลังมังกร */
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (min-width: 1025px) {
+  .content {
+    margin-left: 268px;
+  }
+  .content.is-collapsed {
+    margin-left: 104px;
+  }
+}
+
+/* ===== แผง Sidebar ===== */
+.sidebar {
+  position: fixed;
+  left: 14px;
+  top: 14px;
+  bottom: 14px;
+  width: 238px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 12px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 0, 0.05), transparent 40%),
+    rgba(20, 22, 28, 0.72);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    0 24px 60px -24px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebar.is-collapsed {
+  width: 76px;
+}
+/* แสงเรืองสีเหลืองมุมบน */
+.sb-glow {
+  position: absolute;
+  top: -60px;
+  left: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 0, 0.4), transparent 70%);
+  filter: blur(40px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ===== ส่วนหัว ===== */
+.sb-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.sb-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1;
+}
+.sb-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 15px;
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 6px 16px -6px var(--accent);
+}
+.sb-mark.has-img {
+  background: var(--surface-2);
+  border: 1px solid var(--accent-border);
+}
+.sb-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sb-brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.sb-brand-text strong {
+  font-size: 14px;
+  color: var(--text-h);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sb-brand-text small {
+  font-size: 11.5px;
+  color: var(--accent);
+}
+.sb-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+.sb-toggle:hover {
+  color: var(--text-h);
+  border-color: var(--accent-border);
+}
+.is-collapsed .sb-toggle svg {
+  transform: rotate(180deg);
+}
+
+/* ===== เมนู ===== */
+.sb-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 6px;
+}
+.sb-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 12px 5px;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+.sb-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  transition: all 0.18s ease;
+}
+.sb-link:hover {
+  color: var(--text-h);
+  background: rgba(255, 255, 255, 0.05);
+}
+.sb-link.active {
+  color: var(--text-h);
+  background: var(--accent-soft);
+}
+.sb-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.sb-link.active .sb-ico {
+  color: var(--accent);
+}
+.sb-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+}
+.sb-text {
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* (ปุ่มจ้างงาน + โปรไฟล์ อยู่ใน Sidebar.profile.css) */
+/* (สถานะพับย่อ + tooltip + responsive อยู่ใน Sidebar.collapse.css) */

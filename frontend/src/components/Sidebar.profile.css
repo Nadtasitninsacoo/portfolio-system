@@ -1,0 +1,80 @@
+/* ===== ปุ่มจ้างงาน (CTA) + การ์ดโปรไฟล์ด้านล่าง Sidebar ===== */
+.sb-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+  padding: 8px 12px;
+  border-radius: 11px;
+  font-weight: 700;
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 10px 24px -10px var(--accent);
+  transition: transform 0.18s ease;
+}
+.sb-cta:hover {
+  transform: translateY(-2px);
+}
+.sb-profile {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 13px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+.sb-profile:hover {
+  border-color: var(--accent-border);
+}
+.sb-avatar {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  color: var(--text-h);
+  background: var(--surface-2);
+  border: 1px solid var(--accent-border);
+}
+.sb-avatar.has-img {
+  overflow: hidden;
+}
+.sb-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sb-avatar.has-img .sb-avatar-dot {
+  z-index: 1;
+}
+.sb-avatar-dot {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #4ade80;
+  border: 2px solid var(--bg);
+}
+.sb-profile-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.sb-profile-text strong {
+  font-size: 13px;
+  color: var(--text-h);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sb-profile-text small {
+  font-size: 11px;
+  color: var(--text-muted);
+}
