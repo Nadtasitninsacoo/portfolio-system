@@ -4,27 +4,33 @@ import { join } from 'path';
 import { mkdirSync } from 'fs';
 import { AppModule } from './app.module';
 
-// โหลดค่าจากไฟล์ .env ถ้ามี (Node 22+ รองรับในตัว ไม่ต้องลง dotenv)
+// โหลด env (Node 22+)
 try {
   process.loadEnvFile();
-} catch {
-  /* ไม่มีไฟล์ .env ก็ใช้ค่า default */
-}
+} catch {}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // อนุญาตให้ frontend (เช่น Vite dev server) เรียก API ได้
+  // ✅ สำคัญ: ให้ Railway / Cloud เข้าถึงได้
+  const port = Number(process.env.PORT || 3000);
+
+  await app.listen(port, '0.0.0.0');
+
+  // CORS (frontend Vercel)
   app.enableCors({
     origin: process.env.CORS_ORIGIN?.split(',') ?? true,
+    credentials: true,
   });
 
-  // เสิร์ฟไฟล์รูปที่อัปโหลดผ่าน /uploads
-  const uploadDir = process.env.UPLOAD_DIR ?? join(process.cwd(), 'uploads');
+  // Upload folder (ต้องอยู่ใน /data บน Railway)
+  const uploadDir =
+    process.env.UPLOAD_DIR ?? join(process.cwd(), 'uploads');
+
   mkdirSync(uploadDir, { recursive: true });
   app.useStaticAssets(uploadDir, { prefix: '/uploads' });
 
-  // bind 0.0.0.0 ให้ container บนคลาวด์ (Railway/Render) เข้าถึงได้แน่นอน
-  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+  console.log(`🚀 Server running on port ${port}`);
 }
+
 bootstrap();
