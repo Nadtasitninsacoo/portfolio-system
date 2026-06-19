@@ -20,49 +20,45 @@ export class AnalyticsService {
   constructor(private readonly db: DbService) {}
 
   // บันทึก event จากหน้าเว็บ (สาธารณะ) — view = เข้าชม, click = กดอะไร
-  track(type: string, label: string, visitorId: string) {
+  async track(type: string, label: string, visitorId: string) {
     const t: EventType = type === 'click' ? 'click' : 'view';
-    this.db.db
-      .prepare(
-        'INSERT INTO events (type, label, visitorId, createdAt) VALUES (?, ?, ?, ?)',
-      )
-      .run(
+    await this.db.run(
+      'INSERT INTO events (type, label, visitorId, createdAt) VALUES (?, ?, ?, ?)',
+      [
         t,
         (label || '').slice(0, 120),
         (visitorId || '').slice(0, 64),
         new Date().toISOString(),
-      );
+      ],
+    );
     return { ok: true };
   }
 
   // สรุปข้อมูลสำหรับกราฟในหน้าแอดมิน
-  summary() {
-    const db = this.db.db;
-    const countNo = (sql: string): number =>
-      (db.prepare(sql).get() as unknown as CountRow).n;
+  async summary() {
+    const countNo = async (sql: string): Promise<number> => {
+      const r = await this.db.get<CountRow>(sql);
+      return Number(r?.n ?? 0);
+    };
 
-    const totalViews = countNo("SELECT COUNT(*) n FROM events WHERE type='view'");
-    const totalClicks = countNo("SELECT COUNT(*) n FROM events WHERE type='click'");
-    const uniqueVisitors = countNo(
+    const totalViews = await countNo("SELECT COUNT(*) n FROM events WHERE type='view'");
+    const totalClicks = await countNo("SELECT COUNT(*) n FROM events WHERE type='click'");
+    const uniqueVisitors = await countNo(
       "SELECT COUNT(DISTINCT visitorId) n FROM events WHERE visitorId <> ''",
     );
 
     const today = new Date().toISOString().slice(0, 10);
-    const todayViews = (
-      db
-        .prepare(
-          "SELECT COUNT(*) n FROM events WHERE type='view' AND substr(createdAt,1,10)=?",
-        )
-        .get(today) as unknown as CountRow
-    ).n;
+    const todayRow = await this.db.get<CountRow>(
+      "SELECT COUNT(*) n FROM events WHERE type='view' AND substr(createdAt,1,10)=?",
+      [today],
+    );
+    const todayViews = Number(todayRow?.n ?? 0);
 
     // ยอดวิวรายวัน 14 วันล่าสุด (เติมวันที่ไม่มีข้อมูลเป็น 0)
-    const rows = db
-      .prepare(
-        "SELECT substr(createdAt,1,10) day, COUNT(*) n FROM events WHERE type='view' GROUP BY day",
-      )
-      .all() as unknown as DayRow[];
-    const byDay = new Map(rows.map((r) => [r.day, r.n]));
+    const rows = await this.db.all<DayRow>(
+      "SELECT substr(createdAt,1,10) day, COUNT(*) n FROM events WHERE type='view' GROUP BY day",
+    );
+    const byDay = new Map(rows.map((r) => [r.day, Number(r.n)]));
     const now = new Date();
     const viewsByDay: { day: string; count: number }[] = [];
     for (let i = 13; i >= 0; i--) {
@@ -73,13 +69,10 @@ export class AnalyticsService {
     }
 
     // คลิกยอดนิยม (ชอบกดตรงไหน) — สูงสุด 10 อันดับ
-    const topClicks = (
-      db
-        .prepare(
-          "SELECT label, COUNT(*) n FROM events WHERE type='click' AND label <> '' GROUP BY label ORDER BY n DESC LIMIT 10",
-        )
-        .all() as unknown as LabelRow[]
-    ).map((r) => ({ label: r.label, count: r.n }));
+    const clickRows = await this.db.all<LabelRow>(
+      "SELECT label, COUNT(*) n FROM events WHERE type='click' AND label <> '' GROUP BY label ORDER BY n DESC LIMIT 10",
+    );
+    const topClicks = clickRows.map((r) => ({ label: r.label, count: Number(r.n) }));
 
     return {
       totalViews,

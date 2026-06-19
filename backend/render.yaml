@@ -1,13 +1,14 @@
-# Render Blueprint — deploy backend พร้อม persistent disk สำหรับ SQLite + รูปอัปโหลด
-# หมายเหตุ: disk ใช้ได้เฉพาะแพลน starter ขึ้นไป (แพลน free ไม่มี disk → ข้อมูลจะหาย)
+# Render Blueprint — deploy backend ฟรี (ไม่ต้องมี disk)
+# DB ใช้ Turso (libSQL) + รูปใช้ Cloudinary → ไม่ต้องเก็บไฟล์บนเครื่อง
 services:
   - type: web
     name: portfolio-api
     runtime: node
-    plan: starter
+    plan: free
+    region: oregon
     buildCommand: npm install && npm run build
     startCommand: npm run start:prod
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: JWT_SECRET
         generateValue: true # Render สุ่มให้อัตโนมัติ
@@ -17,11 +18,20 @@ services:
         sync: false # กรอกเองในแดชบอร์ด
       - key: CORS_ORIGIN
         sync: false # ใส่โดเมน Vercel ของคุณ
-      - key: DB_PATH
-        value: /data/data.sqlite
-      - key: UPLOAD_DIR
-        value: /data/uploads
-    disk:
-      name: data
-      mountPath: /data
-      sizeGB: 1
+      - key: TURSO_DATABASE_URL
+        sync: false # จาก Turso (libsql://...)
+      - key: TURSO_AUTH_TOKEN
+        sync: false # จาก Turso
+      - key: CLOUDINARY_URL
+        sync: false # จาก Cloudinary (cloudinary://...)
+      # อีเมลแจ้งเตือน (ทางเลือก)
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: NOTIFY_EMAIL
+        sync: false

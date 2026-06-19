@@ -29,21 +29,19 @@ interface ProjectRow {
 export class ProjectsService {
   constructor(private readonly db: DbService) {}
 
-  list() {
-    const rows = this.db.db
-      .prepare('SELECT * FROM projects ORDER BY sort ASC, id ASC')
-      .all() as unknown as ProjectRow[];
+  async list() {
+    const rows = await this.db.all<ProjectRow>(
+      'SELECT * FROM projects ORDER BY sort ASC, id ASC',
+    );
     return rows.map((r) => this.parse(r));
   }
 
-  create(input: ProjectInput) {
+  async create(input: ProjectInput) {
     const now = new Date().toISOString();
-    const info = this.db.db
-      .prepare(
-        `INSERT INTO projects (title, description, tags, link, imageUrl, images, gitLink, sort, createdAt)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      )
-      .run(
+    const res = await this.db.run(
+      `INSERT INTO projects (title, description, tags, link, imageUrl, images, gitLink, sort, createdAt)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
         input.title ?? 'โปรเจกต์ใหม่',
         input.description ?? '',
         JSON.stringify(input.tags ?? []),
@@ -53,17 +51,16 @@ export class ProjectsService {
         input.gitLink ?? '',
         input.sort ?? 0,
         now,
-      );
-    return this.findOne(Number(info.lastInsertRowid));
+      ],
+    );
+    return this.findOne(Number(res.lastInsertRowid));
   }
 
-  update(id: number, input: ProjectInput) {
-    const existing = this.findOne(id);
-    this.db.db
-      .prepare(
-        `UPDATE projects SET title=?, description=?, tags=?, link=?, imageUrl=?, images=?, gitLink=?, sort=? WHERE id=?`,
-      )
-      .run(
+  async update(id: number, input: ProjectInput) {
+    const existing = await this.findOne(id);
+    await this.db.run(
+      `UPDATE projects SET title=?, description=?, tags=?, link=?, imageUrl=?, images=?, gitLink=?, sort=? WHERE id=?`,
+      [
         input.title ?? existing.title,
         input.description ?? existing.description,
         JSON.stringify(input.tags ?? existing.tags),
@@ -73,25 +70,26 @@ export class ProjectsService {
         input.gitLink ?? existing.gitLink,
         input.sort ?? existing.sort,
         id,
-      );
+      ],
+    );
     return this.findOne(id);
   }
 
-  remove(id: number) {
-    this.findOne(id);
-    this.db.db.prepare('DELETE FROM projects WHERE id = ?').run(id);
+  async remove(id: number) {
+    await this.findOne(id);
+    await this.db.run('DELETE FROM projects WHERE id = ?', [id]);
     return { ok: true };
   }
 
-  private findOne(id: number) {
-    const row = this.db.db
-      .prepare('SELECT * FROM projects WHERE id = ?')
-      .get(id) as unknown as ProjectRow | undefined;
+  private async findOne(id: number) {
+    const row = await this.db.get<ProjectRow>(
+      'SELECT * FROM projects WHERE id = ?',
+      [id],
+    );
     if (!row) throw new NotFoundException('ไม่พบโปรเจกต์');
     return this.parse(row);
   }
 
-  // แปลงแถวจาก DB → object (tags/images เป็น JSON), เผื่อ DB เก่ายังไม่มีคอลัมน์
   private parse(r: ProjectRow) {
     return {
       ...r,

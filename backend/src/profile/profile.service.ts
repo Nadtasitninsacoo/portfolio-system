@@ -5,14 +5,14 @@ import { DbService } from '../db/db.service';
 export class ProfileService {
   constructor(private readonly db: DbService) {}
 
-  get(): Record<string, unknown> {
-    return this.db.getSetting<Record<string, unknown>>('profile') ?? {};
+  async get(): Promise<Record<string, unknown>> {
+    return (await this.db.getSetting<Record<string, unknown>>('profile')) ?? {};
   }
 
-  update(data: Record<string, unknown>): Record<string, unknown> {
-    const current = this.get();
+  async update(data: Record<string, unknown>): Promise<Record<string, unknown>> {
+    const current = await this.get();
     const merged = { ...current, ...data };
-    this.db.setSetting('profile', merged);
+    await this.db.setSetting('profile', merged);
     return merged;
   }
 }
