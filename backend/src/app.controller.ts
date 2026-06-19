@@ -9,4 +9,10 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  // สำหรับ healthcheck ของโฮสต์ (Railway/Render) — ตอบ 200 เมื่อ service พร้อม
+  @Get('health')
+  health() {
+    return { status: 'ok' };
+  }
 }

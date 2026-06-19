@@ -24,6 +24,7 @@ async function bootstrap() {
   mkdirSync(uploadDir, { recursive: true });
   app.useStaticAssets(uploadDir, { prefix: '/uploads' });
 
-  await app.listen(process.env.PORT ?? 3000);
+  // bind 0.0.0.0 ให้ container บนคลาวด์ (Railway/Render) เข้าถึงได้แน่นอน
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();
