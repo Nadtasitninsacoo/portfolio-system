@@ -2,5 +2,5 @@
 User-agent: *
 Allow: /
 
-# แผนผังเว็บ — ⚠️ เปลี่ยน your-domain.com เป็นโดเมนจริงหลัง deploy
-Sitemap: https://your-domain.com/sitemap.xml
+# แผนผังเว็บ
+Sitemap: https://portfolio-system-two.vercel.app/sitemap.xml
