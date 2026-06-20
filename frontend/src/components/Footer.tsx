@@ -1,4 +1,5 @@
 import { useSiteData } from '../site/SiteData'
+import { displayName } from '../utils/displayName'
 import './Footer.css'
 
 export function Footer() {
@@ -6,7 +7,7 @@ export function Footer() {
   return (
     <footer className="footer">
       <p>
-        © {new Date().getFullYear()} {profile.name} · สร้างด้วย React + NestJS
+        © {new Date().getFullYear()} {displayName(profile.name)} · สร้างด้วย React + NestJS
       </p>
       <p className="footer-note">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime commodi

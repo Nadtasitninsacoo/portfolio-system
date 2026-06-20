@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { assetUrl } from '../api/client'
+import { displayName } from '../utils/displayName'
 import { useSiteData } from './SiteData'
 
 /**
@@ -19,20 +20,21 @@ export function Seo() {
     if (loading) return
 
     const origin = window.location.origin
+    const name = displayName(profile.name)
     // ใส่ทั้งชื่อและคีย์เวิร์ดอาชีพ ให้ค้นเจอจากหลายคำ (ชื่อ / โปรแกรมเมอร์ / รับทำเว็บ)
-    const title = `${profile.name} · ${profile.role} | รับทำเว็บไซต์ & โปรแกรมเมอร์`
+    const title = `${name} · ${profile.role} | รับทำเว็บไซต์ & โปรแกรมเมอร์`
     const description = profile.tagline
     const image = profile.avatarUrl ? assetUrl(profile.avatarUrl) : ''
 
     document.title = title
     setMeta('name', 'description', description)
     setMeta('name', 'robots', 'index, follow')
-    setMeta('name', 'author', profile.name)
+    setMeta('name', 'author', name)
     setMeta(
       'name',
       'keywords',
       [
-        profile.name,
+        name,
         profile.role,
         'รับทำเว็บไซต์',
         'โปรแกรมเมอร์',
@@ -46,7 +48,7 @@ export function Seo() {
 
     // Open Graph (แชร์ลิงก์บน Facebook/LINE)
     setMeta('property', 'og:type', 'profile')
-    setMeta('property', 'og:site_name', profile.name)
+    setMeta('property', 'og:site_name', name)
     setMeta('property', 'og:locale', 'th_TH')
     setMeta('property', 'og:title', title)
     setMeta('property', 'og:description', description)
@@ -63,7 +65,7 @@ export function Seo() {
     const ld: Record<string, unknown> = {
       '@context': 'https://schema.org',
       '@type': 'Person',
-      name: profile.name,
+      name,
       jobTitle: profile.role,
       description: profile.tagline,
       url: origin,
@@ -100,10 +102,10 @@ export function Seo() {
     setJsonLd('ld-website', {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: `${profile.name} — ${profile.role}`,
+      name: `${name} — ${profile.role}`,
       url: `${origin}/`,
       inLanguage: 'th',
-      author: { '@type': 'Person', name: profile.name },
+      author: { '@type': 'Person', name },
     })
   }, [profile, loading])
 

@@ -1,10 +1,12 @@
 import { navItems, navIds } from '../data/nav'
 import { useSiteData } from '../site/SiteData'
 import { assetUrl } from '../api/client'
+import { displayName } from '../utils/displayName'
 import { useActiveSection } from '../hooks/useActiveSection'
 import {
   sectionIcons,
   GithubIcon,
+  HackerIcon,
   MailIcon,
   PhoneIcon,
   ChevronIcon,
@@ -31,6 +33,7 @@ export function Sidebar({
   onToggle: () => void
 }) {
   const { profile } = useSiteData()
+  const name = displayName(profile.name)
   const active = useActiveSection(navIds)
   const github = profile.socials.find((s) => s.label === 'GitHub')?.href
 
@@ -48,16 +51,16 @@ export function Sidebar({
       <span className="sb-glow" aria-hidden="true" />
 
       <div className="sb-top">
-        <a className="sb-brand" href="#top" aria-label={profile.name} data-tip={profile.name}>
+        <a className="sb-brand" href="#top" aria-label={name} data-tip={name}>
           <span className={`sb-mark${profile.avatarUrl ? ' has-img' : ''}`}>
             {profile.avatarUrl ? (
-              <img src={assetUrl(profile.avatarUrl)} alt={profile.name} />
+              <img src={assetUrl(profile.avatarUrl)} alt={name} />
             ) : (
-              '◆'
+              <HackerIcon width="62%" height="62%" />
             )}
           </span>
           <span className="sb-brand-text">
-            <strong>{profile.name}</strong>
+            <strong>{name}</strong>
             <small>{profile.role}</small>
           </span>
         </a>

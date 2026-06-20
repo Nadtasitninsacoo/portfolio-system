@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useSiteData } from '../site/SiteData'
 import { assetUrl } from '../api/client'
+import { displayName } from '../utils/displayName'
+import { HackerIcon } from './Icons'
 import { Lightbox } from './Lightbox'
 import './Hero.css'
 
 export function Hero() {
   const { profile } = useSiteData()
-  const initial = profile.name.trim().charAt(0) || '◆'
+  const name = displayName(profile.name)
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null)
 
   const avatarSrc = profile.avatarUrl ? assetUrl(profile.avatarUrl) : ''
@@ -41,22 +43,22 @@ export function Hero() {
             role={avatarSrc ? 'button' : undefined}
             tabIndex={avatarSrc ? 0 : undefined}
             aria-label={avatarSrc ? 'ดูรูปโปรไฟล์เต็ม' : undefined}
-            onClick={avatarSrc ? () => setZoom({ src: avatarSrc, alt: profile.name }) : undefined}
+            onClick={avatarSrc ? () => setZoom({ src: avatarSrc, alt: name }) : undefined}
             onKeyDown={
               avatarSrc
                 ? (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault()
-                      setZoom({ src: avatarSrc, alt: profile.name })
+                      setZoom({ src: avatarSrc, alt: name })
                     }
                   }
                 : undefined
             }
           >
             {profile.avatarUrl ? (
-              <img src={avatarSrc} alt={profile.name} />
+              <img src={avatarSrc} alt={name} />
             ) : (
-              initial
+              <HackerIcon width="55%" height="55%" />
             )}
           </span>
           {profile.nickname && (
@@ -65,7 +67,7 @@ export function Hero() {
         </div>
         <div className="hero-name">
           <h1 className="hero-title">
-            {profile.name}
+            {name}
             <VerifiedBadge />
           </h1>
           <span className="role">{profile.role}</span>

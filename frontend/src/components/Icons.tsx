@@ -79,6 +79,15 @@ export const SparkleIcon: IconComponent = (p) => (
   </Base>
 )
 
+// แฮ็กเกอร์นิรนาม (รูปฮู้ด) — ใช้แทนรูปโปรไฟล์เมื่อยังไม่ได้อัปโหลดรูป
+export const HackerIcon: IconComponent = (p) => (
+  <Base {...p}>
+    <path d="M12 3C8.7 3 6 5.7 6 9c0 1.6.6 3 1.6 4L5 20.5h14L16.4 13c1-1 1.6-2.4 1.6-4 0-3.3-2.7-6-6-6Z" />
+    <path d="M9 10.8h2.2" />
+    <path d="M12.8 10.8H15" />
+  </Base>
+)
+
 // แมป id ของเมนู -> ไอคอน
 export const sectionIcons: Record<string, IconComponent> = {
   top: HomeIcon,

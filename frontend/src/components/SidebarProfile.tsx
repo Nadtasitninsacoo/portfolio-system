@@ -1,21 +1,23 @@
 import { useSiteData } from '../site/SiteData'
 import { assetUrl } from '../api/client'
+import { displayName } from '../utils/displayName'
+import { HackerIcon } from './Icons'
 
 export function SidebarProfile() {
   const { profile } = useSiteData()
-  const initial = profile.name.trim().charAt(0) || '◆'
+  const name = displayName(profile.name)
   return (
-    <a className="sb-profile" href="#contact" data-tip={profile.name}>
+    <a className="sb-profile" href="#contact" data-tip={name}>
       <span className={`sb-avatar${profile.avatarUrl ? ' has-img' : ''}`}>
         {profile.avatarUrl ? (
-          <img src={assetUrl(profile.avatarUrl)} alt={profile.name} />
+          <img src={assetUrl(profile.avatarUrl)} alt={name} />
         ) : (
-          initial
+          <HackerIcon width="62%" height="62%" />
         )}
         {profile.availableForWork && <span className="sb-avatar-dot" />}
       </span>
       <span className="sb-profile-text">
-        <strong>{profile.name}</strong>
+        <strong>{name}</strong>
         <small>{profile.role}</small>
       </span>
     </a>

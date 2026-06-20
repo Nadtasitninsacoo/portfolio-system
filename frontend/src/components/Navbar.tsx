@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { navItems } from '../data/nav'
 import { useSiteData } from '../site/SiteData'
+import { displayName } from '../utils/displayName'
 import './Navbar.css'
 
 export function Navbar() {
@@ -31,7 +32,7 @@ export function Navbar() {
     <header className={`nav${open ? ' is-open' : ''}`}>
       <div className="nav-bar">
         <a className="nav-logo" href="#top" onClick={close}>
-          {profile.name}
+          {displayName(profile.name)}
         </a>
         <button
           className="nav-burger"
