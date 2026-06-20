@@ -3,7 +3,7 @@
 import type { SiteProfile, Project } from '../api/types'
 
 export const defaultProfile: SiteProfile = {
-  name: 'ชื่อ นามสกุล',
+  name: 'Anonymous',
   nickname: '',
   role: 'Full-Stack Developer',
   avatarUrl: '',
