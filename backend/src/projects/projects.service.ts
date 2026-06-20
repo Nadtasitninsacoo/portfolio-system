@@ -38,9 +38,12 @@ export class ProjectsService {
 
   async create(input: ProjectInput) {
     const now = new Date().toISOString();
+    // ใช้ RETURNING * แทนการอ่าน lastInsertRowid — เพราะ Turso (libSQL remote)
+    // ไม่ส่ง lastInsertRowid กลับมาเหมือน DB ไฟล์ในเครื่อง ทำให้เพิ่มผลงานไม่ได้บนคลาวด์
     const res = await this.db.run(
       `INSERT INTO projects (title, description, tags, link, imageUrl, images, gitLink, sort, createdAt)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+       RETURNING *`,
       [
         input.title ?? 'โปรเจกต์ใหม่',
         input.description ?? '',
@@ -53,7 +56,8 @@ export class ProjectsService {
         now,
       ],
     );
-    return this.findOne(Number(res.lastInsertRowid));
+    const row = res.rows[0] as unknown as ProjectRow;
+    return this.parse(row);
   }
 
   async update(id: number, input: ProjectInput) {
