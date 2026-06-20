@@ -4,6 +4,7 @@ import type { SiteProfile, Project } from '../api/types'
 
 export const defaultProfile: SiteProfile = {
   name: 'Anonymous',
+  seoKeywords: '',
   nickname: '',
   role: 'Full-Stack Developer',
   avatarUrl: '',

@@ -187,6 +187,20 @@ export function ProfilePanel() {
       </div>
 
       <label className="fld">
+        คำค้นหา / ชื่ออื่นๆ สำหรับ Google (ไม่แสดงบนเว็บ)
+        <textarea
+          value={p.seoKeywords}
+          rows={2}
+          placeholder="เช่น ณัฐสิทธิ์ นินสะคู, Nadtasit Ninsacoo, โปรแกรมเมอร์รับงาน"
+          onChange={(e) => set('seoKeywords', e.target.value)}
+        />
+      </label>
+      <p className="muted hint">
+        ใส่ชื่อไทย/อังกฤษ หรือคำที่อยากให้ค้นแล้วเจอ (คั่นด้วยจุลภาค ,) —
+        ส่งให้ Google เท่านั้น ไม่โชว์บนหน้าเว็บ
+      </p>
+
+      <label className="fld">
         แท็กไลน์ (ข้อความสั้นใต้ชื่อ)
         <textarea value={p.tagline} rows={2} onChange={(e) => set('tagline', e.target.value)} />
       </label>

@@ -20,6 +20,7 @@ export interface Education {
 
 export interface SiteProfile {
   name: string
+  seoKeywords: string // ชื่ออื่นๆ/คำค้นหาสำหรับ Google (ไม่แสดงบนหน้าเว็บ) เช่นชื่อไทย-อังกฤษ
   nickname: string // ชื่อเล่น — โชว์เป็นป้ายมุมรูปโปรไฟล์ (แบบสถานะ Facebook)
   role: string
   avatarUrl: string

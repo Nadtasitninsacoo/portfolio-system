@@ -21,6 +21,11 @@ export function Seo() {
 
     const origin = window.location.origin
     const name = displayName(profile.name)
+    // ชื่ออื่นๆ/คำค้นหาที่แอดมินกรอก (ไม่แสดงบนเว็บ — ส่งให้ Google ผ่าน meta + structured data)
+    const seoTerms = (profile.seoKeywords ?? '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
     // ใส่ทั้งชื่อและคีย์เวิร์ดอาชีพ ให้ค้นเจอจากหลายคำ (ชื่อ / โปรแกรมเมอร์ / รับทำเว็บ)
     const title = `${name} · ${profile.role} | รับทำเว็บไซต์ & โปรแกรมเมอร์`
     const description = profile.tagline
@@ -35,6 +40,7 @@ export function Seo() {
       'keywords',
       [
         name,
+        ...seoTerms,
         profile.role,
         'รับทำเว็บไซต์',
         'โปรแกรมเมอร์',
@@ -70,6 +76,8 @@ export function Seo() {
       description: profile.tagline,
       url: origin,
     }
+    // ชื่ออื่นๆ ที่อยากให้ Google จับคู่ (เช่นชื่อไทย/อังกฤษ) — alternateName
+    if (seoTerms.length) ld.alternateName = seoTerms
     if (profile.avatarUrl) ld.image = assetUrl(profile.avatarUrl)
     // วันเกิด: ใส่ให้ Google อย่างเดียว — ไม่แสดงบนหน้าเว็บ (ข้อมูลส่วนตัว)
     if (profile.birthDate) ld.birthDate = profile.birthDate

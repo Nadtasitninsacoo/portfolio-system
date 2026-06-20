@@ -2,6 +2,7 @@
 
 export const defaultProfile = {
   name: 'ชื่อ นามสกุล',
+  seoKeywords: '',
   nickname: '',
   role: 'Full-Stack Developer',
   avatarUrl: '',
