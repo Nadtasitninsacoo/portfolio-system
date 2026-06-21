@@ -110,14 +110,16 @@
   max-width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 2px 11px;          /* เดิม 4px 13px → บางลง */
-  font-size: 12px;            /* เดิม 12.5px (ลดนิดให้เข้ากับ badge ที่เตี้ยลง) */
+  padding: 1px 10px;                          /* บางลงอีก */
+  font-size: 11.5px;
   font-weight: 500;
-  color: var(--on-accent);
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  border: 1px solid var(--bg-soft);   /* เดิม 2px → ขอบบางลง */
-  border-radius: 9px;          /* เดิม 10px */
-  box-shadow: 0 6px 16px -6px rgba(255, 255, 0, 0.55);
+  color: var(--accent);                       /* ตัวอักษรเป็นสีเหลืองแทน เพราะพื้นโปร่งแล้ว */
+  background: rgba(255, 255, 255, 0.08);       /* พื้นโปร่งแสง */
+  backdrop-filter: blur(10px);                 /* เบลอฉากหลัง = กระจกฝ้า */
+  -webkit-backdrop-filter: blur(10px);         /* รองรับ Safari */
+  border: 1px solid rgba(255, 255, 255, 0.18); /* ขอบบางจางๆ ให้ดูเป็นกระจก */
+  border-radius: 9px;
+  box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.4);
 }
 
 .hero-avatar {
